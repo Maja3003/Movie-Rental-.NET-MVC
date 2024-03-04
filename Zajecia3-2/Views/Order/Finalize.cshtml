@@ -1,0 +1,40 @@
+﻿@model Zajecia3_2.Models.OrderViewModel
+
+@{
+    ViewData["Title"] = "Finalize Order";
+}
+
+<h1>Finalize Order</h1>
+
+<h5>Thank you for choosing Rental Store! Please review your order details:</h5>
+
+<div>
+    @if (Model.RentedMovies.Any())
+    {
+        <h3>Your Rented Movies</h3>
+
+        <ul>
+            @for (int i = 0; i < Model.RentedMovies.Count; i++)
+            {
+                <li class="movie-title">
+                    <span>@Model.RentedMovies[i].Title</span>
+                    <span class="price-column">@Model.RentedMovies[i].Price.ToString("C")</span>
+                    <form asp-controller="Order" asp-action="Remove" method="post">
+                        <input type="hidden" name="movieIndex" value="@i" />
+                        <button type="submit" class="btn btn-danger btn-sm remove-button">Remove</button>
+                    </form>
+                </li>
+            }
+        </ul>
+
+        <p>If everything looks good, click the "Confirm Order" button to finalize your rental.</p>
+
+        <form asp-controller="Order" asp-action="Confirmed" method="post">
+            <button type="submit" class="btn btn-primary">Confirm Order</button>
+        </form>
+    }
+    else
+    {
+        <h3>No items in your cart</h3>
+    }
+</div>

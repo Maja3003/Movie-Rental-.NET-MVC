@@ -1,0 +1,63 @@
+﻿@model Zajecia3_2.Models.MovieGenreViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<h1>List of movies</h1>
+@if (User.Identity.Name == "Maja13@gmail.com")
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<form asp-controller="Movies" asp-action="Index" method="get">
+    <p>
+        <select asp-for="MovieGenre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+        Title: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<div class="row">
+    @foreach (var item in Model.Movies)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    <img src="@Url.Content(item.ImagePath ?? "/images/default.png")" class="card-img-top" alt="Image for @item.Title">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text">@item.ReleaseDate.ToShortDateString()</p>
+                    <p class="card-text">@item.Genre</p>
+                    <p class="card-text">@item.Price.ToString("C")</p>
+                    <p class="card-text">@item.Rating</p>
+                    <div class="btn-group">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                        @if (User.Identity.Name == "Maja13@gmail.com")
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Rent" asp-route-id="@item.Id" class="btn btn-sm btn-outline-success">Rent</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

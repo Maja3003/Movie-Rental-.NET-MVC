@@ -1,0 +1,51 @@
+﻿@model Zajecia3_2.Models.Movie
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div class="details-container">
+    <div class="details-flex">
+        <div class="details-image">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Url.Content(Model.ImagePath)" alt="Image for @Model.Title" class="img-fluid" />
+            }
+            else
+            {
+                <p>No Image</p>
+            }
+        </div>
+        <div class="details-info">
+            <div>
+                <strong style="font-size: 36px;">@Html.DisplayFor(model => model.Title)</strong>
+            </div>
+            <div>
+                <strong>@Html.DisplayNameFor(model => model.ReleaseDate)</strong>: @Html.DisplayFor(model => model.ReleaseDate)
+            </div>
+            <div>
+                <strong>@Html.DisplayNameFor(model => model.Genre)</strong>: @Html.DisplayFor(model => model.Genre)
+            </div>
+            <div>
+                <strong>@Html.DisplayNameFor(model => model.Price)</strong>: @Html.DisplayFor(model => model.Price)
+            </div>
+            <div>
+                <strong>@Html.DisplayNameFor(model => model.Rating)</strong>: @Html.DisplayFor(model => model.Rating)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @if (User.Identity.Name == "Maja13@gmail.com")
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit |</a>
+        <a asp-action="Index">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Index">Back to List</a>
+    }
+</div>
